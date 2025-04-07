@@ -5,10 +5,15 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomicfoundation/hardhat-ethers";
 
 require('dotenv').config();
+require("typechain/hardhat");
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
   // Removed invalid 'typechain' property as it is not part of HardhatUserConfig
+  typechain: {
+    outDir: "src/contracts/typechain",
+    target: "ethers-v6",
+  },
   networks: {
     // Ethereum Sepolia Testnet with updated Alchemy URL
     sepolia: {
