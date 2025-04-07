@@ -12,8 +12,8 @@ const config: HardhatUserConfig = {
   networks: {
     // Ethereum Sepolia Testnet with updated Alchemy URL
     sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
-      accounts: [process.env.WALLET_KEY as string], // Private key of the deployer wallet
+      url: `https://eth-sepolia.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`, // Alchemy URL
+      accounts: [`0x${process.env.PRIVATE_KEY}`], // Private key of the deployer wallet
       gasPrice: 1000000000, // Optional: Set gas price
     },
     // Lisk Sepolia Testnet
@@ -23,29 +23,17 @@ const config: HardhatUserConfig = {
       gasPrice: 1000000000, // Optional: Set gas price
     },
   },
-  etherscan: {
-    apiKey: {
-      sepolia: process.env.ETHERSCAN_API_KEY as string, // Etherscan API key for Ethereum Sepolia
-      "lisk-sepolia": "123", // Placeholder API key for Lisk Blockscout
-    },
-    customChains: [
-      {
-        network: "lisk-sepolia",
-        chainId: 4202,
-        urls: {
-          apiURL: "https://sepolia-blockscout.lisk.com/api",
-          browserURL: "https://sepolia-blockscout.lisk.com",
-        },
-      },
-    ],
-  },
+  // etherscan: {
+  //   apiKey: {
+  //     sepolia: process.env.ETHERSCAN_API_KEY as string, // Etherscan API key for Ethereum Sepolia
+  //     "lisk-sepolia": "123", // Placeholder API key for Lisk Blockscout
+  //   },
+  //   // customchains
+  // },
   paths: {
     sources: "./contracts",
     tests: "./test",
     // Removed invalid 'scripts' property
-  },
-  sourcify: {
-    enabled: false
   },
 };
 
