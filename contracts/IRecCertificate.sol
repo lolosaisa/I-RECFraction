@@ -33,12 +33,12 @@ contract IRecCertificate is ERC721URIStorage, Ownable {
     }
 
     function updateTokenURI(uint256 tokenId, string memory newTokenURI) external onlyOwner {
-        require(_exists(tokenId), "Token does not exist");
+        _requireOwned(tokenId);  // Replaces _exists, reverts if token doesn’t exist
         _setTokenURI(tokenId, newTokenURI);
     }
 
     function getTokenURI(uint256 tokenId) external view returns (string memory) {
-        require(_exists(tokenId), "Token does not exist");
+        _requireOwned(tokenId);  // Replaces _exists, reverts if token doesn’t exist
         return tokenURI(tokenId);
     }
 
