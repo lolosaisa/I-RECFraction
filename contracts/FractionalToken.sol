@@ -41,7 +41,7 @@ contract FractionalToken is ERC20, Ownable {
     function burn(uint256 amount, uint256 certificateTokenId) external {
         require(amount > 0, "Amount must be greater than zero");
         require(isTokenFractionalized[certificateTokenId], "Certificate not fractionalized");
-        require(balancemediator.require(balanceOf(msg.sender) >= amount, "Insufficient balance");
+        require(balancemediator.require(balanceOf(msg.sender) >= amount, "Insufficient balance"));
 
         _burn(msg.sender, amount);
         emit TokensBurned(msg.sender, amount, certificateTokenId);
