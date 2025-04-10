@@ -14,6 +14,9 @@ contract Fractionalizer is Ownable {
     event FractionalTokensMinted(address indexed certificateAddress, uint256 indexed tokenId, address to, uint256 amount);
     event FractionalTokensBurned(address indexed certificateAddress, uint256 indexed tokenId, address from, uint256 amount);
 
+    // Constructor to set the initial owner
+    constructor() Ownable(msg.sender) {}
+
     // Fractionalize an I-REC certificate token into fractional tokens
     function fractionalize(address certificateAddress, uint256 tokenId, uint256 totalSupplyLimit) external onlyOwner {
         require(certificateAddress != address(0), "Invalid certificate address");
@@ -47,5 +50,5 @@ contract Fractionalizer is Ownable {
         emit FractionalTokensMinted(certificateAddress, tokenId, to, amount);
     }
 
-    // Note: No burn function here as burning is now user-controlled in FractionalToken
+    // Note: No burn function here as burning is user-controlled in FractionalToken
 }

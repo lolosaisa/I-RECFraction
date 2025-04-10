@@ -3,11 +3,11 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./IRecCertificate.sol"; // Importing the IRecCertificate contract
+import "./IRecCertificate.sol";
 
 contract FractionalToken is ERC20, Ownable {
     uint256 public totalSupplyLimit;
-    IRecCertificate public certificateContract; // Reference to IRecCertificate contract
+    IRecCertificate public certificateContract;
 
     mapping(uint256 => bool) public isTokenFractionalized;
 
@@ -16,6 +16,7 @@ contract FractionalToken is ERC20, Ownable {
 
     constructor(address _certificateAddress, uint256 _totalSupplyLimit) 
         ERC20("Fractional I-REC Token", "F-IREC") 
+        Ownable(msg.sender)
     {
         require(_certificateAddress != address(0), "Invalid certificate address");
         certificateContract = IRecCertificate(_certificateAddress);

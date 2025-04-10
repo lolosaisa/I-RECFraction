@@ -6,9 +6,9 @@ async function main() {
 
   // Deploy IRecCertificate
   const IRecCertificate = await hre.ethers.getContractFactory("IRecCertificate");
-  const certificate = await IRecCertificate.deploy();
-  await certificate.waitForDeployment();
-  console.log("IRecCertificate deployed to:", certificate.target);
+  const iRecCertificate = await IRecCertificate.deploy();
+  await iRecCertificate.waitForDeployment();
+  console.log("IRecCertificate deployed to:", iRecCertificate.target);
 
   // Deploy Fractionalizer
   const Fractionalizer = await hre.ethers.getContractFactory("Fractionalizer");
@@ -16,21 +16,17 @@ async function main() {
   await fractionalizer.waitForDeployment();
   console.log("Fractionalizer deployed to:", fractionalizer.target);
 
-  // Mint an I-REC certificate and fractionalize it
-  await certificate.mint(deployer.address, "https://metadata.com/1");
+  // Mint an I-REC certificate
+  const txMint = await iRecCertificate.mint(deployer.address, "https://example.com/metadata.json");
+  await txMint.wait();
   console.log("Minted I-REC certificate with tokenId 0");
 
-  await certificate.transferCertificate(fractionalizer.target, 0);
-  await fractionalizer.fractionalize(certificate.target, 0, 1000);
-  const tokenAddress = await fractionalizer.certificateTokenToFractionalToken(certificate.target, 0);
-  console.log("FractionalToken deployed to:", tokenAddress);
-
-  console.log("Deployment complete!");
+  // Transfer the certificate to Fractionalizer (likely line 23)
+  const txTransfer = await iRecCertificate.transferCertificate(fractionalizer.target, 0);
+  await txTransfer.wait(); // This fails
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
